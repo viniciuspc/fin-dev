@@ -2,7 +2,6 @@ package org.awolart.fin.pv;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.internal.runners.statements.ExpectException;
 import org.junit.runner.RunWith;
 
 import com.tngtech.java.junit.dataprovider.DataProvider;
@@ -30,7 +29,7 @@ public class AnnuitiesTest {
 	@UseDataProvider("dataProviderOrdinaryAnnuityArray")
 	public void OrdinaryAnnuityArrayTest(double[] C, double y, double expected) {
 		
-		Assert.assertEquals(expected, annuities.OrdinaryAnnuity(y, C), 0.001);
+		Assert.assertEquals(expected, annuities.OrdinaryAnnuity(y, C), 0.01);
 		
 	}
 	
@@ -39,9 +38,21 @@ public class AnnuitiesTest {
 	 public static Object[][] dataProviderOrdinaryAnnuityN() {
 		return new Object[][] {
 			{2, 0, 1000, 0},
-			//{-1.0,	3,	1000,	-1}
+			{-1.0,	3,	1000,	Double.POSITIVE_INFINITY}, //Division by 0, java computes as positive infinity
 			{2, 3, 0, 0},
 			{-1.1, 3, -10000.01, 9100009.10},
+			{-1.1, 3, -10000.00, 9100000.00},
+			{-1.1, 3, 10000.00, -9100000.00},
+			{-1.1, 3, 10000.01, -9100009.10},
+			{-0.9, 3, -10000.01, -11100011.10},
+			{-0.9, 3, -10000.00, -11100000.00},
+			{-0.9, 3, 10000.00, 11100000.00},
+			{-0.9, 3, 10000.01, 11100011.10},
+			{0.9, 3, -10000.01, -9491.19},
+			{0.9, 3, -10000.00, -9491.18},
+			{0.9, 3, 10000.00, 9491.18},
+			{0.9, 3, 10000.01, 9491.19},
+			
 		};
 	}
 	
@@ -51,9 +62,7 @@ public class AnnuitiesTest {
 	@UseDataProvider("dataProviderOrdinaryAnnuityN")
 	public void OrdinaryAnnuityNTest(double y, int n, double C, double expected) {
 		
-		
-		
-		Assert.assertEquals(expected, annuities.OrdinaryAnnuity(y, n, C), 0.001);
+		Assert.assertEquals(expected, annuities.OrdinaryAnnuity(y, n, C), 0.01);
 		
 	}
 

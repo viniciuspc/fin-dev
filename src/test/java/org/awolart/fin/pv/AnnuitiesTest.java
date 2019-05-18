@@ -13,7 +13,7 @@ public class AnnuitiesTest {
 	
 	Annuities annuities = new Annuities();
 	
-	//DataProvider for the data flow test
+	//DataProvider for the control flow test
 	@DataProvider
 	 public static Object[][] dataProviderOrdinaryAnnuityArray() {
 		double[] Cempty = {};
